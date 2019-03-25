@@ -33,7 +33,6 @@ class Canvas extends Component {
     }
 
     render() {
-
         return (
             <div id="visilazation" className="view" ref={(ref) => { this.visilazation = ref }}>
                 <canvas id="canvas-display"

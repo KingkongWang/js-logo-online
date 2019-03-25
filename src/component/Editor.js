@@ -35,10 +35,12 @@ class Editor extends Component {
     constructor() {
         super();
         this.editor = null;
+        // this.initCode = '';
     }
 
     componentDidMount() {
         this.context = this.props.context;
+        this.initCode = this.props.initCode;
 
         this.editor = CodeMirror.fromTextArea(this.ref, {
             mode: "text/javascript",    //实现js代码高亮
@@ -69,7 +71,7 @@ class Editor extends Component {
                     Array: Array,
                     Boolean: Boolean,
                     Date: Date,
-                    Number: Number,
+                    Number: Number, 
                     String: String,
                     Math: Math,
                     Object: Object,
@@ -84,25 +86,26 @@ class Editor extends Component {
 
         this.editor.setSize('100%', '100%');
         this.editor.on('change', this.onChanged);
-
-        // this.editor.on("cursorActivity", function () {
-        //     //获取用户当前的编辑器中的编写的代码
-        //     var words = editor.getValue() + "";
-        //     //利用正则取出用户输入的所有的英文的字母
-        //     words = words.replace(/[a-z]+[\-|\']+[a-z]+/ig, '').match(/([a-z]+)/ig);
-        //     //将获取到的用户的单词传入CodeMirror,并在javascript-hint中做匹配
-        //     CodeMirror.ukeys = words;
-        //     //调用显示提示
-        //     // editor.showHint();
-        // });
     }
 
-    cursorActivity = () => {
-
+    shouldComponentUpdate(nextProps) {
+        // console.log(this.props);
+        // console.log(nextProps);
+        if(this.props.initCode !== nextProps.initCode) {
+            return true;
+        }
+        return false;
     }
+
+    componentDidUpdate() {
+        if(this.editor) {
+            this.editor.setValue(this.props.initCode);
+        }
+    }
+
 
     onChanged = (doc, change) => {
-        // console.log(change);
+        console.log(change);
         if (this.props.onChange && change.origin !== 'setValue') {
             if (change.origin === '+input') { // 输入字符监听
                 if ((change.text >= "a" && change.text <= "z")
@@ -126,25 +129,6 @@ class Editor extends Component {
             this.props.onChange(doc.getValue(), change);
         }
     }
-
-    // componentWillReceiveProps: function (nextProps) {
-    // 	if (this.codeMirror && nextProps.value !== undefined && nextProps.value !== this.props.value && normalizeLineEndings(this.codeMirror.getValue()) !== normalizeLineEndings(nextProps.value)) {
-    // 		if (this.props.preserveScrollPosition) {
-    // 			var prevScrollPosition = this.codeMirror.getScrollInfo();
-    // 			this.codeMirror.setValue(nextProps.value);
-    // 			this.codeMirror.scrollTo(prevScrollPosition.left, prevScrollPosition.top);
-    // 		} else {
-    // 			this.codeMirror.setValue(nextProps.value);
-    // 		}
-    // 	}
-    // 	if (typeof nextProps.options === 'object') {
-    // 		for (let optionName in nextProps.options) {
-    // 			if (nextProps.options.hasOwnProperty(optionName)) {
-    // 				this.setOptionIfChanged(optionName, nextProps.options[optionName]);
-    // 			}
-    // 		}
-    // 	}
-    // },
 
     render() {
         return (
