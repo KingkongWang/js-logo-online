@@ -64,11 +64,13 @@ class App extends Component {
           <Col>
             <div className="header">
               <ButtonGroup >
-                <Button color="primary" onClick={this.onRun}>运行</Button>
-                <Button color="primary" onClick={this.onReset}>重置</Button>
-                <SamplePanel onSelected={this.switchSample}/>
+                <Button color="secondary" onClick={this.onRun}>运行</Button>
+                <Button color="secondary" onClick={this.onReset}>重置</Button>
               </ButtonGroup>
             </div>
+          </Col>
+          <Col>
+            <SamplePanel onSelected={this.switchSample}/>
           </Col>
         </Row>
         <Row>
@@ -81,6 +83,7 @@ class App extends Component {
         </Row>
         <div className="footer">
           <a href="https://github.com/KingkongWang/js-logo-online">github项目地址</a>
+          <br/>wang19850919@gmail.com
         </div>
       </Container>
 
