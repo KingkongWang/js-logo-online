@@ -1,40 +1,44 @@
 import * as BabelStandlone from "babel-standalone";
-
+import log from './Log';
 /**
  * 解释器
  */
 class Interpreter {
+
     constructor(context) {
         this.context = context;
-
     }
 
     wrapper(content) {
-        return '(function(){ return (app) => {' +
+        return '(function(){ return function(app){' +
              content +
              '}})();';
     }
 
+    /**
+     * 动态转换为es5代码
+     */
     translate(input) {
-        let output = BabelStandlone.transform(input, { presets: ['es2015'] }).code;
+        let output = BabelStandlone.transform(input, { 
+            presets: ['es2015'] 
+        
+        }).code;
         return output;
     }
 
-
     eval(input) {
-        console.log('input:' + input);
         try{
 
             let code = this.translate(input);
-            console.log(code);
+            log.debug(code);
             let code2 = this.wrapper(code);
-            console.log(code2);
+            log.debug(code2);
             let func = eval(code2);
-            console.log(func);
+            log.debug(func);
             func(this.context);
 
         }catch(err) {
-            console.log(err);
+            log.error(err);
             alert(err);
         }
 

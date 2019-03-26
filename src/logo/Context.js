@@ -1,3 +1,5 @@
+import log from './Log';
+
 
 class Context {
     constructor(app) {
@@ -6,31 +8,33 @@ class Context {
         this.pen = new PenProxy(app);
         this.screen = new ScreenProxy(app);
     }
-    test() {
-        // console.log(mainState);
-        // document.getElementById('game').contentWindow.mainState.startGame();
-        let doc = document.getElementById('game').contentWindow.document;
-        console.log(doc);
-        //加载js脚本
+    // test() {
+    //     // log.debug(mainState);
+    //     // document.getElementById('game').contentWindow.mainState.startGame();
+    //     let doc = document.getElementById('game').contentWindow.document;
+    //     log.debug(doc);
+    //     //加载js脚本
 
-        // doc.write("<script>" + 
-        // "game.States.change();" +
-        // "<\/script>");
+    //     // doc.write("<script>" + 
+    //     // "game.States.change();" +
+    //     // "<\/script>");
 
-    }
+    // }
 }
 
-
+/**
+ * TODO
+ */
 class ConsoleProxy {
     constructor(app) {
         this._app = app;
     }
 
-    log = (content) => {
-        console.log('-------');
-        console.log(content);
-        this._app.addOutput(content);
-    }
+    // log = (content) => {
+    //     log.debug('-------');
+    //     log.debug(content);
+    //     this._app.addOutput(content);
+    // }
 }
 
 
@@ -42,35 +46,35 @@ class TurtleProxy {
 
     show() {
         this._engine.addCommand(() => {
-            console.log('show');
+            log.debug('show');
             this._engine.turtle.setVisible(true);
         });
     }
 
     hide() {
         this._engine.addCommand(() => {
-            console.log('hide');
+            log.debug('hide');
             this._engine.turtle.setVisible(false);
         });
     }
 
     forward(dis) {
         this._engine.addCommand(() => {
-            console.log('forward');
+            log.debug('forward');
             this._engine.line(dis);
         });
     }
 
     backward(dis) {
         this._engine.addCommand(() => {
-            console.log('backward');
+            log.debug('backward');
             this._engine.line(-dis);
         });
     }
 
     right(angle) {
         this._engine.addCommand(() => {
-            console.log('right');
+            log.debug('right');
             this._engine.rotate(angle);
         });
 
@@ -78,14 +82,14 @@ class TurtleProxy {
 
     left(angle) {
         this._engine.addCommand(() => {
-            console.log('left');
+            log.debug('left');
             this._engine.rotate(-angle);
         });
     }
 
     home() {
         this._engine.addCommand(() => {
-            console.log('home');
+            log.debug('home');
             this._engine.home();
         })
     }
@@ -97,36 +101,45 @@ class PenProxy {
         this._engine = this._app.engine;
     }
 
-    // 落笔
+    /**
+     * 落笔
+     */
     down(){
         // this.app.execute(id);
         this._engine.addCommand(() => {
-            console.log('down');
+            log.debug('down');
             this._engine.penDown();
         })
 
     }
 
-    // 抬笔
+    /**
+     * 抬笔
+     */
     up(){
         this._engine.addCommand(() => {
-            console.log('up');
+            log.debug('up');
             this._engine.penUp();
         })
     }
 
-    // 设置color
+    /**
+     * 设置画笔颜色
+     */
     setColor(color){
         this._engine.addCommand(() => {
-            console.log('setColor');
+            log.debug('setColor');
             this._engine.setPenColor(color);
         })
     }
 
-        // 设置背景color
+    /**
+     * 设置画笔宽度
+     * @param {*} size 
+     */
     setSize(size){
         this._engine.addCommand(() => {
-            console.log('setSize');
+            log.debug('setSize');
             this._engine.setPenSize(size);
         })
 
@@ -141,8 +154,15 @@ class ScreenProxy{
 
     clear() {
         this.engine.addCommand(() => {
-            console.log('clean');
+            log.debug('screen clean');
             this.engine.clean();
+        })
+    }
+
+    setColor(color) {
+        this.engine.addCommand(() => {
+            log.debug('set screen color ' + color);
+            this.engine.setScreenColor(color);
         })
     }
 }

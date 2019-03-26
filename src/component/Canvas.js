@@ -7,15 +7,16 @@ class Canvas extends Component {
         this.engine = null;
         this.timer = null;
         this.interval = 30;
+        // this.width = 800;
+        // this.height = 800;
     }
 
     componentDidMount() {
         if(this.props.interval) {
             this.interval = this.props.interval;
         }
-
         this.engine = this.props.engine;
-        this.engine.init(this.visilazation, this.canvasDisplay, this.canvasScratch, 780, 780);
+        this.engine.init(this.canvasDisplay, this.canvasScratch, this.canvasTurtle, this.props.width, this.props.height);
         this.timer = setInterval(() =>{
             this.tick();
         }, this.interval);        
@@ -29,21 +30,25 @@ class Canvas extends Component {
 
     tick() {
         this.engine.tick();
-        // console.log('tick');
     }
 
     render() {
         return (
             <div id="visilazation" className="view" ref={(ref) => { this.visilazation = ref }}>
                 <canvas id="canvas-display"
-                        width="780px"
-                        height="780px"
+                        width={this.props.width + "px"}
+                        height={this.props.height + "px"}
                         ref={(ref) => { this.canvasDisplay = ref }} />
                 <canvas id="canvas-scratch"
                         style={{ display: 'none' }}
-                        width="780px"
-                        height="780px"
+                        width={this.props.width + "px"}
+                        height={this.props.height + "px"}
                         ref={(ref) => { this.canvasScratch = ref }} />
+                <canvas id="layer-turtle"
+                        style={{ display: 'none' }}
+                        width={this.props.width + "px"}
+                        height={this.props.height + "px"}
+                        ref={(ref) => { this.canvasTurtle = ref }} />
             </div>
         );
 

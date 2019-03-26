@@ -35,7 +35,6 @@ class Editor extends Component {
     constructor() {
         super();
         this.editor = null;
-        // this.initCode = '';
     }
 
     componentDidMount() {
@@ -86,11 +85,11 @@ class Editor extends Component {
 
         this.editor.setSize('100%', '100%');
         this.editor.on('change', this.onChanged);
+        this.editor.on('blur', this.onBlur);
+        // this.editor.on('focus', this.onFocus);
     }
 
     shouldComponentUpdate(nextProps) {
-        // console.log(this.props);
-        // console.log(nextProps);
         if(this.props.initCode !== nextProps.initCode) {
             return true;
         }
@@ -99,17 +98,26 @@ class Editor extends Component {
 
     componentDidUpdate() {
         if(this.editor) {
-            this.editor.setValue(this.props.initCode);
+            // this.editor.setValue(this.props.initCode);
+            this.editor.replaceSelection(this.props.initCode)
+            this.editor.focus();
         }
     }
 
+    // onFocus = (doc, evt) => {
+    //     console.log(evt);
+    // }
+
+    onBlur = (doc, evt) => {
+        console.log(evt);
+    }
 
     onChanged = (doc, change) => {
         console.log(change);
         if (this.props.onChange && change.origin !== 'setValue') {
             if (change.origin === '+input') { // 输入字符监听
                 if ((change.text >= "a" && change.text <= "z")
-                    || (change.text >= "A" && change.text <= "Z") || change.text == "."){
+                    || (change.text >= "A" && change.text <= "Z") || change.text === "."){
                         // 跳出提示
                         // this.editor.showHint({
                         //     globalScope:this.globalScope,

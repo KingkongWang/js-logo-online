@@ -61,9 +61,13 @@
 
 .view {
   background-color: black;
-  min-height: 800px;
+  height: 800px;
 }
 
 .editor{
   height:800px;
+}
+
+.mail {
+  color: black;
 }

@@ -7,16 +7,21 @@ import { Button,ButtonGroup, Container, Row, Col } from 'reactstrap';
 
 import Editor from './component/Editor';
 import Canvas from './component/Canvas';
-import SamplePanel from './component/SamplePanel';
+import CommandMenu from './component/CommandMenu';
 
 import Interpreter from './logo/Interpreter';
 import Context from './logo/Context';
 import Engine from './logo/Engine';
+import log, {LOG_LEVEL_DEBUG} from './logo/Log';
+
+import {Samples, ScreenCommands, PenCommands, TurtleCommands} from './logo/Consts';
 
 
 class App extends Component {
   constructor() {
     super(); 
+    // 设置日志级别
+    log.level = LOG_LEVEL_DEBUG;
     this._engine = new Engine();  
     this._context = new Context(this);
     this._interpreter = new Interpreter(this._context);
@@ -24,6 +29,8 @@ class App extends Component {
     this.state = {
       initCode:'',
       currentCode:'',
+      canvasWidth: 800,
+      canvasHeight: 800
     };
 
   }
@@ -53,8 +60,15 @@ class App extends Component {
   /**
    * 切换示例代码
    */
-  switchSample = (code) => {
+  insertCode = (code) => {
     this.setState({initCode:code, currentCode:code});
+  }
+  
+  /**
+   * 插入指令
+   */
+  insertCommand = (code) => {
+    alert(code);
   }
 
   render() {
@@ -70,7 +84,13 @@ class App extends Component {
             </div>
           </Col>
           <Col>
-            <SamplePanel onSelected={this.switchSample}/>
+            <ButtonGroup>
+              
+              <CommandMenu label="屏幕指令" commandList={ScreenCommands} onSelected={this.insertCode}/>
+              <CommandMenu label="画笔指令" commandList={PenCommands} onSelected={this.insertCode}/>
+              {/* <CommandMenu label="海龟指令" commandList={TurtleCommands} onSelected={this.insertCommand}/> */}
+              <CommandMenu label="范例" commandList={Samples} onSelected={this.insertCode}/>
+            </ButtonGroup>
           </Col>
         </Row>
         <Row>
@@ -78,12 +98,12 @@ class App extends Component {
             <Editor context={this._context} initCode={this.state.initCode} onChange={this.onCodeChage} />
           </Col>
           <Col>
-            <Canvas engine={this._engine} />
+            <Canvas engine={this._engine} width={this.state.canvasWidth} height={this.state.canvasHeight}/>
           </Col>
         </Row>
         <div className="footer">
           <a href="https://github.com/KingkongWang/js-logo-online">github项目地址</a>
-          <br/>wang19850919@gmail.com
+          <br/><div className="mail">wang19850919@gmail.com</div>
         </div>
       </Container>
 

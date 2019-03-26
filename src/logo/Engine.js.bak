@@ -1,7 +1,7 @@
 import Turtle from './Turtle';
 import arrow from '../img/arrow.png';
 import Pen from './Pen';
-
+import Canvas from '../component/Canvas';
 
 
 const DEFAULT_SCREEN_COLOR = 'black';    //默认屏幕背景色
@@ -9,32 +9,37 @@ const DEFAULT_SCREEN_COLOR = 'black';    //默认屏幕背景色
 class Engine {
 
     init(canvasDisplay, canvasScratch, canvasTurtle, width, height) {
-         
-        this.width = width;
-
-        this.height = height;
+        /**
+         * 海龟
+         * @type {null}
+         */
+        this.turtle = null;
 
         /**
          * 画笔                                                          
          */
         this.pen = new Pen();
     
+
         /**
          * 屏幕背景颜色
          */
         this.screenColor = DEFAULT_SCREEN_COLOR;
 
 
-        this.layerBackgroud = canvasDisplay.getContext('2d');
-        this.layerShape = canvasScratch.getContext('2d');
+        this.width = width;
+
+        this.height = height;
+
+        this.ctxDisplay = canvasDisplay.getContext('2d');
+        this.ctxScratch = canvasScratch.getContext('2d');
         this.layerTurtle = canvasTurtle.getContext('2d');
 
         /**
          * 异步操作指令
          */
-        this.commandList = [];
+        this.commands = [];
 
-        this.shapeList = [];
 
         /**
          * 海龟初始化
@@ -52,14 +57,13 @@ class Engine {
      * 添加异步命令 
      */
     addCommand(command){
-        this.commandList.push(command);
+        this.commands.push(command);
     }
-
 
     tick() {
         // 异步执行指令
-        if (this.commandList.length > 0) {
-            let func = this.commandList.shift();
+        if (this.commands.length > 0) {
+            let func = this.commands.shift();
             func();
             // 刷新
             this.display();
@@ -69,52 +73,47 @@ class Engine {
     }
 
 
-    // 重置主函数
+    //重置主函数
     reset(){
         // 清除所有剩余指令
-        this.commandList = [];
+        this.commands = [];
 
         this.turtle.reset();
         this.pen.reset();
     
         this.screenColor = DEFAULT_SCREEN_COLOR;        //背景色
 
-        // 背景层
-        this.layerBackgroud.canvas.width = this.layerBackgroud.canvas.width;
-        this.layerBackgroud.fillStyle = this.screenColor;
-        this.layerBackgroud.fillRect(0, 0, this.width, this.height);
-
-        // Shape层
-        this.layerShape.canvas.width = this.layerShape.canvas.width;
-        this.layerShape.strokeStyle = this.pen.color;
-        this.layerShape.lineWidth = this.pen.size;
-        this.layerShape.fillStyle = 'rgba(255, 255, 255, 0)';//this.screenColor;
-        this.layerShape.fillRect(0, 0, this.width, this.height );
-
-        // 对象层
-        this.layerTurtle.canvas.width = this.layerTurtle.canvas.width;
-        this.layerShape.fillStyle = 'rgba(255, 255, 255, 0)';//this.screenColor;
-        this.layerShape.fillRect(0, 0, this.width, this.height );
+        // 清除canvas并重新设置样式
+        this.ctxScratch.canvas.width = this.ctxScratch.canvas.width;
+        this.ctxScratch.strokeStyle = this.pen.color;
+        this.ctxScratch.lineWidth = this.pen.size;
+        this.ctxScratch.fillStyle = this.screenColor;
+        this.ctxScratch.fillRect(0, 0, this.width, this.height );
         
     };
 
-
+    /**
+     * 将草稿上的图像绘制到canvas上
+     */
     display(){
         // 清屏
-        this.layerBackgroud.canvas.width = this.layerBackgroud.canvas.width;
+        this.ctxDisplay.canvas.width = this.ctxDisplay.canvas.width;
 
         // 绘制背景
-        this.layerBackgroud.fillStyle = this.screenColor;
-        this.layerBackgroud.fillRect(0, 0, this.width, this.height);
+        this.ctxDisplay.fillStyle = this.screenColor;
+        this.ctxDisplay.fillRect(0, 0, this.width, this.height);
 
-        // 绘制图形层
-        // this.layerBackgroud.globalAlpha = 1; // 设置为不透明,完全覆盖了下面的scratch canvas
-        this.layerBackgroud.drawImage(this.layerShape.canvas, 0, 0); 
+        // 将草稿绘制到图层上
+        this.ctxDisplay.globalAlpha = 1; 								// 设置为不透明,完全覆盖了下面的scratch canvas
+        this.ctxDisplay.drawImage(this.ctxScratch.canvas, 0, 0); 
 
-        // 绘制海龟
+        //把海龟绘制在实际画板上
+        // this.turtle.draw(this.ctxDisplay);
+
         this.layerTurtle.canvas.width = this.layerTurtle.canvas.width;
         this.turtle.draw(this.layerTurtle);
-        this.layerBackgroud.drawImage(this.layerTurtle.canvas, 0, 0); 
+        // this.layerTurtle.globalAlpha = 1; 								// 设置为不透明,完全覆盖了下面的scratch canvas
+        this.ctxDisplay.drawImage(this.layerTurtle.canvas, 0, 0); 
     };
 
     /**
@@ -137,14 +136,14 @@ class Engine {
     }
 
     line = (distance) => {
-        let ctx = this.layerShape;
+        let ctx = this.ctxScratch;
         //设置画笔颜色和尺寸
         ctx.strokeStyle = this.pen.color;
         ctx.lineWidth = this.pen.size;
 
 
         if (this.pen.isDown) {  //判断画笔是否抬起,若落下状态则进行绘制
-            // ctx.beginPath();
+            ctx.beginPath();
             ctx.moveTo(this.turtle.x, this.turtle.y);
         }
 
@@ -191,12 +190,10 @@ class Engine {
     //清图形，海龟不动
     clean = () => {
 
-        let temp = this.layerShape.strokeStyle;
-
-        this.layerShape.canvas.width = this.layerShape.canvas.width;
-        this.layerShape.canvas.height = this.layerShape.canvas.height;
-        
-        this.layerShape.strokeStyle = temp;//因为清屏之后strokeStyle发生了变化
+        let temp = this.ctxScratch.strokeStyle;
+        this.ctxScratch.canvas.width = this.ctxScratch.canvas.width;
+        this.ctxScratch.canvas.height = this.ctxScratch.canvas.height;
+        this.ctxScratch.strokeStyle = temp;//因为清屏之后strokeStyle发生了变化
 
     };
 

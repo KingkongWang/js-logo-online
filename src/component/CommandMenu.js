@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
 import {DropdownToggle, DropdownMenu, Dropdown, DropdownItem} from 'reactstrap';
-import {Samples} from '../logo/Sample';
 
 /**
- * 范例面板 
+ * 指令菜单
  */
-class SamplePanel extends Component {
+class CommandMenu extends Component {
     constructor() {
         super();
-        let sampleItems = Samples.map((sample, index) =>
-            <DropdownItem key={index} onClick={this.onSelected.bind(this, index)}>
-                {sample.desc}
-            </DropdownItem>
-        );
-
         this.state = {
             dropdownOpen: false,
-            dropdownItems: sampleItems
+            dropdownItems: null
         };
     }
 
@@ -26,9 +19,21 @@ class SamplePanel extends Component {
         }));
     }
 
+    componentWillMount() {
+        let items = this.props.commandList.map((command, index) =>
+        <DropdownItem key={index} onClick={this.onSelected.bind(this, index)}>
+            {command.label}
+        </DropdownItem>
+        );
+
+        this.setState({
+          dropdownItems: items
+        });
+    } 
+
     onSelected(index, evt) {
         if(this.props.onSelected) {
-            this.props.onSelected(Samples[index].code);
+            this.props.onSelected(this.props.commandList[index].code);
         }
     }
 
@@ -38,9 +43,9 @@ class SamplePanel extends Component {
 
     render() {
         return (
-            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleSample}>
+          <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleSample}>
             <DropdownToggle caret>
-              范例
+              {this.props.label}
             </DropdownToggle>
             <DropdownMenu>
               {this.state.dropdownItems}
@@ -51,4 +56,4 @@ class SamplePanel extends Component {
     }
 }
 
-export default SamplePanel;
+export default CommandMenu;

@@ -1,7 +1,6 @@
 
 const DEFAULT_PEN_SIZE = 1;             //默认画笔宽度
 const DEFAULT_PEN_COLOR = 'white';       //默认画笔颜色
-const DEFAULT_SCREEN_COLOR = 'black';    //默认屏幕背景色
 
 class Pen {
 
@@ -19,19 +18,23 @@ class Pen {
     }
 
     set color(value) {
-        console.log('setcolor:' + value);
         this._color = value;
     }
 
     get color() {
-        console.log('getcolor:' + this._color);
         return this._color;
     }
 
+    /**
+     * 落笔
+     */
     down() {
         this._isDown = true;
     } 
 
+    /**
+     * 抬笔
+     */
     up() {
         this._isDown = false;
     }
@@ -41,8 +44,18 @@ class Pen {
     }
  
     reset() {
+        /**
+         * 画笔尺寸
+         */
         this._size = DEFAULT_PEN_SIZE;
+        /**
+         * 画笔颜色
+         */
         this._color = DEFAULT_PEN_COLOR;
+        
+        /**
+         * 是否落笔
+         */
         this._isDown = true;
     }
 
