@@ -27,8 +27,11 @@ import "codemirror/addon/hint/show-hint";
 import "codemirror/addon/hint/javascript-hint.js";
 // import "./logo-js-hint";  // 使用自定制的hint
 
+// 滚动条
+import 'codemirror/addon/scroll/simplescrollbars.css'
+import 'codemirror/addon/scroll/simplescrollbars'
 
-
+import log from "../logo/Log";
 
 
 class Editor extends Component {
@@ -42,11 +45,11 @@ class Editor extends Component {
         this.initCode = this.props.initCode;
 
         this.editor = CodeMirror.fromTextArea(this.ref, {
-            mode: "text/javascript",    //实现js代码高亮
-            lineNumbers: true,	        //显示行号
+            mode: "text/javascript",    // 实现js代码高亮
+            lineNumbers: true,	        // 显示行号
             indentUnit: 4,              // 缩进单元
             tabSize: 4,                 // tab对应空格数
-            theme: "dracula",	        //设置主题
+            theme: "dracula",	        // 设置主题
 
             // 括号相关
             matchBrackets: true,      // 自动显示括号匹配，需要配合 "codemirror/addon/edit/matchbrackets.js"
@@ -85,7 +88,7 @@ class Editor extends Component {
 
         this.editor.setSize('100%', '100%');
         this.editor.on('change', this.onChanged);
-        this.editor.on('blur', this.onBlur);
+        // this.editor.on('blur', this.onBlur);
         // this.editor.on('focus', this.onFocus);
     }
 
@@ -108,30 +111,21 @@ class Editor extends Component {
     //     console.log(evt);
     // }
 
-    onBlur = (doc, evt) => {
-        console.log(evt);
-    }
+    // onBlur = (doc, evt) => {
+    //     log.debug(evt);
+    // }
 
     onChanged = (doc, change) => {
-        console.log(change);
+        log.debug(change);
         if (this.props.onChange && change.origin !== 'setValue') {
             if (change.origin === '+input') { // 输入字符监听
-                if ((change.text >= "a" && change.text <= "z")
+                if(change.text[0].length === 1) {  // 输入字符串
+                    if ((change.text >= "a" && change.text <= "z")
                     || (change.text >= "A" && change.text <= "Z") || change.text === "."){
                         // 跳出提示
-                        // this.editor.showHint({
-                        //     globalScope:this.globalScope,
-                        //     useGlobalScope:true,
-                        //     additionalContext:this.additionalContext
-                        //     // {
-                        // //     "app":appScope
-                        // //   }
-                        // });
-
                         this.editor.showHint();
                     }
-                    // this.editor.showHint();
-                // console.log(change);
+                }
             }
 
             this.props.onChange(doc.getValue(), change);

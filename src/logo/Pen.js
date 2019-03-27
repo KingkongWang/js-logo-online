@@ -1,6 +1,9 @@
 
-const DEFAULT_PEN_SIZE = 1;             //默认画笔宽度
+const DEFAULT_PEN_SIZE = 1;              //默认画笔宽度
 const DEFAULT_PEN_COLOR = 'white';       //默认画笔颜色
+const DEFAULT_FILL_COLOR = "white";      //默认填充色
+
+
 
 class Pen {
 
@@ -52,6 +55,7 @@ class Pen {
          * 画笔颜色
          */
         this._color = DEFAULT_PEN_COLOR;
+
         
         /**
          * 是否落笔

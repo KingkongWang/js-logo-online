@@ -1,4 +1,4 @@
-export const LOG_LEVEL_DEBUG = 0;
+export const LOG_LEVEL_DEBUG  = 0;
 export const LOG_LEVEL_INFO = 1;    
 export const LOG_LEVEL_WARN = 2;   
 export const LOG_LEVEL_ERROR = 3;    
@@ -16,37 +16,47 @@ class Log {
         this._level = lv;
     }
 
-    debug(str) {
+    translate(content) {
+        if(typeof content === 'string') {
+            return content;
+        } else {
+            return JSON.stringify(content);
+        
+        }
+    }
+
+    debug(content) {
         if(this._level > LOG_LEVEL_DEBUG) {
             return;
         }
 
-        console.log('[debug]:' + str);
+        
+        console.log('[debug]:' + this.translate(content));
     }
 
-    info(str) {
+    info(content) {
         if(this._level > LOG_LEVEL_INFO) {
             return;
         } 
 
-        console.log('[info]:' + str);
+        console.log('[info]:' + this.translate(content));
     }
 
     
-    warn(str) {
+    warn(content) {
         if(this._level > LOG_LEVEL_WARN) {
             return;
         }
 
-        console.log('[warn]:' + str);
+        console.log('[warn]:' + this.translate(content));
     }
     
-    error(str) {
+    error(content) {
         if(this._level > LOG_LEVEL_ERROR) {
             return;
         }
 
-        console.log('[error]:' + str);
+        console.log('[error]:' + this.translate(content));
     }
     
 

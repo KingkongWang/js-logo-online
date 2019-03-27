@@ -7,6 +7,7 @@ class Context {
         this.turtle = new TurtleProxy(app);
         this.pen = new PenProxy(app);
         this.screen = new ScreenProxy(app);
+        this.text = new TextProxy(app);
     }
     // test() {
     //     // log.debug(mainState);
@@ -47,14 +48,14 @@ class TurtleProxy {
     show() {
         this._engine.addCommand(() => {
             log.debug('show');
-            this._engine.turtle.setVisible(true);
+            this._engine.setTurtleVisible(true);
         });
     }
 
     hide() {
         this._engine.addCommand(() => {
             log.debug('hide');
-            this._engine.turtle.setVisible(false);
+            this._engine.setTurtleVisible(false);
         });
     }
 
@@ -92,6 +93,41 @@ class TurtleProxy {
             log.debug('home');
             this._engine.home();
         })
+    }
+
+    circle(radius) {
+        this._engine.addCommand(() => {
+            log.debug('circle');
+            this._engine.circle(radius);
+        })   
+    }
+
+    fillCircle(radius, color) {
+        this._engine.addCommand(() => {
+            log.debug('fillCircle');
+            this._engine.fillCircle(radius, color);
+        })   
+    }
+
+    rect(width, height) {
+        this._engine.addCommand(() => {
+            log.debug('rect');
+            this._engine.rect(width, height);
+        })   
+    }
+
+    fillRect(width, height, color) {
+        this._engine.addCommand(() => {
+            log.debug('fillRect');
+            this._engine.fillRect(width, height, color);
+        })   
+    }
+
+    text(content){
+        this._engine.addCommand(() => {
+            log.debug('text');
+            this._engine.text(content);
+        })  
     }
 }
 
@@ -143,6 +179,27 @@ class PenProxy {
             this._engine.setPenSize(size);
         })
 
+    }
+}
+
+class TextProxy{
+    constructor(app) {
+        this._app = app;
+        this._engine = this._app.engine;
+    }
+
+    font(setting) {
+        this._engine.addCommand(() => {
+            log.debug('font');
+            this._engine.font(setting);
+        })
+    }
+
+    draw(content, x, y) {
+        this._engine.addCommand(() => {
+            log.debug('drawText');
+            this._engine.drawText(content, x, y);
+        })
     }
 }
 

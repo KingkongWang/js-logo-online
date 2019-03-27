@@ -14,7 +14,7 @@ import Context from './logo/Context';
 import Engine from './logo/Engine';
 import log, {LOG_LEVEL_DEBUG} from './logo/Log';
 
-import {Samples, ScreenCommands, PenCommands, TurtleCommands} from './logo/Consts';
+import {Samples, ScreenCommands, PenCommands, TurtleCommands, TextCommands} from './logo/Consts';
 
 
 class App extends Component {
@@ -85,10 +85,10 @@ class App extends Component {
           </Col>
           <Col>
             <ButtonGroup>
-              
+              <CommandMenu label="海龟指令" commandList={TurtleCommands} onSelected={this.insertCode}/>
               <CommandMenu label="屏幕指令" commandList={ScreenCommands} onSelected={this.insertCode}/>
               <CommandMenu label="画笔指令" commandList={PenCommands} onSelected={this.insertCode}/>
-              {/* <CommandMenu label="海龟指令" commandList={TurtleCommands} onSelected={this.insertCommand}/> */}
+              <CommandMenu label="文本指令" commandList={TextCommands} onSelected={this.insertCode}/>
               <CommandMenu label="范例" commandList={Samples} onSelected={this.insertCode}/>
             </ButtonGroup>
           </Col>
@@ -102,8 +102,8 @@ class App extends Component {
           </Col>
         </Row>
         <div className="footer">
-          <a href="https://github.com/KingkongWang/js-logo-online">github项目地址</a>
-          <br/><div className="mail">wang19850919@gmail.com</div>
+          <a href="https://github.com/KingkongWang/js-logo-online" style={{color:'#FFFFFF'}}>github项目地址</a>
+          {/* <font>github项目地址</font> */}
         </div>
       </Container>
 

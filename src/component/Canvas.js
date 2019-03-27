@@ -7,8 +7,6 @@ class Canvas extends Component {
         this.engine = null;
         this.timer = null;
         this.interval = 30;
-        // this.width = 800;
-        // this.height = 800;
     }
 
     componentDidMount() {
@@ -16,7 +14,13 @@ class Canvas extends Component {
             this.interval = this.props.interval;
         }
         this.engine = this.props.engine;
-        this.engine.init(this.canvasDisplay, this.canvasScratch, this.canvasTurtle, this.props.width, this.props.height);
+        this.engine.init(
+            this.canvasDisplay, 
+            this.canvasScratch, 
+            this.canvasText, 
+            this.canvasTurtle, 
+            this.props.width, 
+            this.props.height);
         this.timer = setInterval(() =>{
             this.tick();
         }, this.interval);        
@@ -44,11 +48,17 @@ class Canvas extends Component {
                         width={this.props.width + "px"}
                         height={this.props.height + "px"}
                         ref={(ref) => { this.canvasScratch = ref }} />
+                <canvas id="layer-text"
+                        style={{ display: 'none' }}
+                        width={this.props.width + "px"}
+                        height={this.props.height + "px"}
+                        ref={(ref) => { this.canvasText = ref }} />
                 <canvas id="layer-turtle"
                         style={{ display: 'none' }}
                         width={this.props.width + "px"}
                         height={this.props.height + "px"}
                         ref={(ref) => { this.canvasTurtle = ref }} />
+                
             </div>
         );
 

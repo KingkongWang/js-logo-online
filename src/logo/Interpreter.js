@@ -10,9 +10,9 @@ class Interpreter {
     }
 
     wrapper(content) {
-        return '(function(){ return function(app){' +
-             content +
-             '}})();';
+        return '(function(){ return function(app){\n' +
+             content + 
+             '\n}})();';
     }
 
     /**
