@@ -42,7 +42,6 @@ class Editor extends Component {
 
     componentDidMount() {
         this.context = this.props.context;
-        this.initCode = this.props.initCode;
 
         this.editor = CodeMirror.fromTextArea(this.ref, {
             mode: "text/javascript",    // 实现js代码高亮
@@ -92,17 +91,17 @@ class Editor extends Component {
         // this.editor.on('focus', this.onFocus);
     }
 
-    shouldComponentUpdate(nextProps) {
-        if(this.props.initCode !== nextProps.initCode) {
-            return true;
-        }
-        return false;
-    }
+    // shouldComponentUpdate(nextProps) {
+    //     if(this.props.initCode !== nextProps.initCode) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     componentDidUpdate() {
-        if(this.editor) {
+        if(this.editor && this.props.insertCode) {
             // this.editor.setValue(this.props.initCode);
-            this.editor.replaceSelection(this.props.initCode)
+            this.editor.replaceSelection(this.props.insertCode)
             this.editor.focus();
         }
     }

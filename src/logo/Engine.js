@@ -141,15 +141,17 @@ class Engine {
         this._layerShape.canvas.width = this._layerShape.canvas.width;
         this._layerShape.strokeStyle = this._pen.color;
         this._layerShape.lineWidth = this._pen.size;
-        this._layerShape.fillStyle = 'rgba(255, 255, 255, 0)';//this.screenColor;
+        this._layerShape.fillStyle = 'rgba(255, 255, 255, 0)';
         this._layerShape.fillRect(0, 0, this._width, this._height );
 
         // 文本层
         this._layerText.canvas.width = this._layerText.canvas.width;
+        this._layerText.fillStyle = 'rgba(255, 255, 255, 0)';
+        this._layerText.fillRect(0, 0, this._width, this._height );
 
         // 海龟层
         this._layerTurtle.canvas.width = this._layerTurtle.canvas.width;
-        this._layerShape.fillStyle = 'rgba(255, 255, 255, 0)';//this.screenColor;
+        this._layerShape.fillStyle = 'rgba(255, 255, 255, 0)';
         this._layerShape.fillRect(0, 0, this._width, this._height );
         
         // 清除所有剩余指令

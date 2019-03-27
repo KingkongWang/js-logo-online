@@ -25,10 +25,11 @@ class App extends Component {
     this._engine = new Engine();  
     this._context = new Context(this);
     this._interpreter = new Interpreter(this._context);
+    this._currentCode = '';
 
     this.state = {
       initCode:'',
-      currentCode:'',
+      insertCode:'',
       canvasWidth: 800,
       canvasHeight: 800
     };
@@ -45,7 +46,7 @@ class App extends Component {
   }
 
   onRun = () => {
-    this._interpreter.eval(this.state.currentCode);
+    this._interpreter.eval(this._currentCode);
   }
 
   onReset = () => {
@@ -54,14 +55,16 @@ class App extends Component {
   }
 
   onCodeChage = (value, change) => {
-    this.setState({currentCode:value});
+    this._currentCode = value;
+    // this.setState({currentCode:value});
   }
 
   /**
    * 切换示例代码
    */
   insertCode = (code) => {
-    this.setState({initCode:code, currentCode:code});
+    console.log("insert");
+    this.setState({insertCode:code});
   }
   
   /**
@@ -95,7 +98,7 @@ class App extends Component {
         </Row>
         <Row>
           <Col>
-            <Editor context={this._context} initCode={this.state.initCode} onChange={this.onCodeChage} />
+            <Editor context={this._context} insertCode={this.state.insertCode} onChange={this.onCodeChage} />
           </Col>
           <Col>
             <Canvas engine={this._engine} width={this.state.canvasWidth} height={this.state.canvasHeight}/>
@@ -103,7 +106,6 @@ class App extends Component {
         </Row>
         <div className="footer">
           <a href="https://github.com/KingkongWang/js-logo-online" style={{color:'#FFFFFF'}}>github项目地址</a>
-          {/* <font>github项目地址</font> */}
         </div>
       </Container>
 
