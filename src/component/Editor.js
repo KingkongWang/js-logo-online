@@ -49,7 +49,8 @@ class Editor extends Component {
             indentUnit: 4,              // 缩进单元
             tabSize: 4,                 // tab对应空格数
             theme: "dracula",	        // 设置主题
-
+            scrollbarStyle: "overlay",  // 滚动条风格
+            
             // 括号相关
             matchBrackets: true,      // 自动显示括号匹配，需要配合 "codemirror/addon/edit/matchbrackets.js"
             autoCloseBrackets: true,  // 自动生成关闭括号，需要配合 "codemirror/addon/edit/closebrackets.js"
