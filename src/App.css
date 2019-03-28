@@ -40,34 +40,28 @@
 }
 
 .header {
-  background-color: grey;
+  /* background-color: grey; */
 }
 
 .footer {
-  color:white;
-  background-color: grey;
   overflow:auto;
   height: 100px;
   width:100%;
-  /* border: solid black 1px; */
   text-align:center;
 }
 
 .left {
-  background-color: red;
+  
   height: 800px;
-  overflow: hidden;
+  width:100%;
+
 }
 
 .view {
-  background-color: black;
   height: 800px;
 }
 
-.editor{
+/* .editor{
   height:800px;
 }
-
-.mail {
-  color: black;
-}
+ */

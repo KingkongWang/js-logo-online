@@ -63,7 +63,6 @@ class App extends Component {
    * 切换示例代码
    */
   insertCode = (code) => {
-    console.log("insert");
     this.setState({insertCode:code});
   }
   
@@ -91,7 +90,6 @@ class App extends Component {
             <ButtonGroup>
               <CommandMenu label="系统指令" commandList={SystemCommands} onSelected={this.insertCode}/>
               <CommandMenu label="海龟指令" commandList={TurtleCommands} onSelected={this.insertCode}/>
-              {/* <CommandMenu label="屏幕指令" commandList={ScreenCommands} onSelected={this.insertCode}/> */}
               <CommandMenu label="画笔指令" commandList={PenCommands} onSelected={this.insertCode}/>
               <CommandMenu label="文本指令" commandList={TextCommands} onSelected={this.insertCode}/>
             </ButtonGroup>
