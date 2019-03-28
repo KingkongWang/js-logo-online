@@ -15,5 +15,5 @@ js在线海龟作图工具
 随后访问 http://localhost:3000/ 即可。
 
 ## 效果
-![image](https://github.com/KingkongWang/js-logo-online/blob/master/public/favicon.ico)
+![image](https://github.com/KingkongWang/js-logo-online/blob/master/public/preview.gif)
 
