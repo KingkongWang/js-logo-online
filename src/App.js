@@ -83,6 +83,7 @@ class App extends Component {
               <ButtonGroup >
                 <Button color="secondary" onClick={this.onRun}>运行</Button>
                 <Button color="secondary" onClick={this.onReset}>重置</Button>
+                <CommandMenu label="示例" commandList={Samples} onSelected={this.insertCode}/>
               </ButtonGroup>
             </div>
           </Col>
@@ -93,7 +94,6 @@ class App extends Component {
               {/* <CommandMenu label="屏幕指令" commandList={ScreenCommands} onSelected={this.insertCode}/> */}
               <CommandMenu label="画笔指令" commandList={PenCommands} onSelected={this.insertCode}/>
               <CommandMenu label="文本指令" commandList={TextCommands} onSelected={this.insertCode}/>
-              <CommandMenu label="示例" commandList={Samples} onSelected={this.insertCode}/>
             </ButtonGroup>
           </Col>
         </Row>
