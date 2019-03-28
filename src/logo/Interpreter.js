@@ -31,9 +31,8 @@ class Interpreter {
 
             let code = this.translate(input);
             log.debug(code);
-            let code2 = this.wrapper(code);
-            log.debug(code2);
-            let func = eval(code2);
+            code = this.wrapper(code);
+            let func = eval(code);
             log.debug(func);
             func(this.context);
 

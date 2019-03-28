@@ -6,7 +6,7 @@ class Canvas extends Component {
         super(props);
         this.engine = null;
         this.timer = null;
-        this.interval = 30;
+        this.interval = 1;
     }
 
     componentDidMount() {

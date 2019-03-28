@@ -1,44 +1,51 @@
 const Sample1 =
     '/* jshint esversion:6   */\n' + 
     '/** \n' +
-    ' * 六边形示例\n' +
+    ' * 正多边形示例\n' +
     ' */\n' +
-    'let times = 6;\n' +
-    'let len = 100;\n' + 
-    'let angle = 60;\n' + 
-    'app.turtle.show();\n' + 
-    'for(let i = 0; i < times; i++){\n' +
-    '    app.turtle.forward(len);\n' +
-    '    app.turtle.right(angle);\n' +
-    '}';
+    'function draw(edgeNum, edgeLen, sleepMS) {\n' +
+    '    let angle = 360 / edgeNum;\n' + 
+    '    app.turtle.show();\n' + 
+    '    for(let i = 0; i < edgeNum; i++){\n' +
+    '        app.turtle.forward(edgeLen);\n' +
+    '        app.turtle.right(angle);\n' +
+    '        app.system.sleep(sleepMS);\n' +
+    '    }\n' +
+    '}\n' +
+    'let edgeNum = 6;\n' +
+    'let edgeLen = 100;\n' +
+    'draw(edgeNum, edgeLen, 30);\n';
 
 /**
  * 
  */
 const Sample2 =
-    '/* jshint esversion: 6 */\n' + 
-    '/**\n' +
-    ' * 五角星示例\n' +
+    '/* jshint esversion:6   */\n' + 
+    '/** \n' +
+    ' * 填充正多边形示例\n' +
     ' */\n' +
-    'let times = 5;\n' +
-    'let len = 100;\n' + 
-    'let angle = 60;\n' + 
-    'app.turtle.show();\n' +
-    'for(let i = 0; i < times; i++){\n' +
-    '    app.turtle.forward(100);\n' +
-    '    app.turtle.right(30);\n' +
-    '}';
+    'function draw(edgeNum, edgeLen, sleepMS) {\n' +
+    '    let angle = 360 / edgeNum;\n' + 
+    '    app.turtle.show();\n' + 
+    '    for(let i = 0; i < edgeNum; i++){\n' +
+    '        app.turtle.forward(edgeLen);\n' +
+    '        app.turtle.right(angle);\n' +
+    '        app.system.sleep(sleepMS);\n' +
+    '    }\n' +
+    '}\n' +
+    'let edgeNum = 6;\n' +
+    'let edgeLen = 100;\n' +
+    'app.pen.setColor("#FF0000");\n' + 
+    'app.turtle.fillPath(() => {\n' + 
+    '    draw(edgeNum, edgeLen, 30);\n' + 
+    '});\n';
+    
 
 
 
 export const Samples = [
-     {label:"六边形", code:Sample1},
-     {label:"五角星", code:Sample2},
-];
-
-export const ScreenCommands = [
-    {label:"清屏", code:"app.screen.clear();"},
-    {label:"设置背景色", code:"app.screen.setColor('#ffffff');"}
+     {label:"正多边形", code:Sample1},
+     {label:"填充正多边形", code:Sample2},
 ];
 
 
@@ -50,21 +57,39 @@ export const TurtleCommands = [
     {label:"向右转", code:"app.turtle.right(0);"},
     {label:"向左转", code:"app.turtle.left(0);"},
     {label:"回家", code:"app.turtle.home();"},
-    {label:"圆", code:"app.turtle.circle(100);"},
-    {label:"填充圆", code:"app.turtle.fillCircle(100, '#ff0000');"},
-    {label:"矩形", code:"app.turtle.rect(100, 100);"},
-    {label:"填充矩形", code:"app.turtle.fillRect(100, 100, '#ff0000');"},
+    {label:"设置位置", code:"app.turtle.position(100,100);"},
+    // {label:"填充模式", code:
+    //     "app.turtle.beginFill();\n" +
+    //     "//添加海龟移动代码\n" +
+    //     "app.turtle.endFill();\n"
+    // },
+    {label:"填充路径", code:
+    "app.turtle.fillPath(() => {\n" +
+    "//添加海龟移动代码\n" +
+    "});\n"
+    },
+
+    // {label:"圆", code:"app.turtle.drawCircle(100);"},
+    // {label:"填充圆", code:"app.turtle.fillCircle(100);"},
+    // {label:"矩形", code:"app.turtle.drawRect(100, 100);"},
+    // {label:"填充矩形", code:"app.turtle.fillRect(100, 100);"},
 
 ];
 
 export const PenCommands = [
     {label:"抬笔", code:"app.pen.up();"},
     {label:"落笔", code:"app.pen.down();"},
-    {label:"颜色", code:"app.pen.setColor('#ffffff');"},
+    {label:"颜色", code:"app.pen.setColor('#000000');"},
     {label:"粗细", code:"app.pen.setSize(1);"},
 ];
 
 export const TextCommands = [
-    {label:"绘制文本", code:"app.text.draw('hello,world!', 100, 100);"},
+    {label:"绘制文本", code:"app.text.drawText('hello,world!');"},
     {label:"设置字体", code:"app.text.font('18px SimHei');"},
+];
+
+export const SystemCommands = [
+    {label:"暂停", code:"app.system.sleep(30);"},
+    {label:"清屏", code:"app.system.clear();"},
+    {label:"背景色", code:"app.system.setColor('#ffffff');"}
 ];

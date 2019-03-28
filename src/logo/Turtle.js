@@ -3,72 +3,87 @@ class Turtle {
     constructor(initX, initY, image) {
 
         //初始坐标
-        this.initX = initX;
-        this.initY = initY;
+        this._initX = initX;
+        this._initY = initY;
 
         // 海龟坐标
-        this.x = initX;
-        this.y = initY;
+        this._x = initX;
+        this._y = initY;
 
         // 是否可见
-        this.isVisible = true;
+        this._isVisible = true;
 
         // 海龟角度
-        this.heading = 0;
+        this._heading = 0;
 
         //海龟图片
-        this.image = image;
+        this._image = image;
 
     };
 
+    get x() {
+        return this._x;
+    }
+
+    get y() {
+        return this._y;
+    }
+
     setVisible = (isVisible) => {
-        this.isVisible = isVisible;
+        this._isVisible = isVisible;
+    }
+
+    /**
+     * 获取海龟旋转角度
+     */
+    get heading() {
+        return this._heading;
     }
 
     //海龟位置重置
     home = () => {
-        this.x = this.initX;
-        this.y = this.initY;
-        this.heading = 0;
+        this._x = this._initX;
+        this._y = this._initY;
+        this._heading = 0;
     }
 
     //重置
     reset = () => {
-        this.x = this.initX;
-        this.y = this.initY;
-        this.heading = 0;
-        this.isVisible = true;
+        this._x = this._initX;
+        this._y = this._initY;
+        this._heading = 0;
+        this._isVisible = true;
     }
 
     //旋转角度
     rotate = (angle) => {
-        this.heading += angle;
+        this._heading += angle;
     }
 
     //设置位置
     setPosition = (x, y) => {
-        this.x = x;
-        this.y = y;
+        this._x = x;
+        this._y = y;
     }
 
     //移动一段距离
     move = (distance) => {
         //将坐标根据角度和默认距离进行移动
-        this.x += distance * Math.sin(2 * Math.PI * this.heading / 360);
-        this.y -= distance * Math.cos(2 * Math.PI * this.heading / 360);
+        this._x += distance * Math.sin(2 * Math.PI * this._heading / 360);
+        this._y -= distance * Math.cos(2 * Math.PI * this._heading / 360);
     }
 
     //绘制
     draw = (context) => {
-        if (!this.isVisible) {
+        if (!this._isVisible) {
             return;
         }
 
         //绘制海龟图片
-        context.translate(this.x, this.y);
-        context.rotate((Math.PI / 180) * this.heading);   // 角度转换为弧度
-        context.translate(-this.x, -this.y);
-        context.drawImage(this.image, this.x - 17.5, this.y - 30, 35, 40);
+        context.translate(this._x, this._y);
+        context.rotate((Math.PI / 180) * this._heading);   // 角度转换为弧度
+        context.translate(-this._x, -this._y);
+        context.drawImage(this._image, this._x - 17.5, this._y - 30, 35, 40);
 
     }
 

@@ -3,11 +3,13 @@ import log from './Log';
 
 class Context {
     constructor(app) {
-        this.console = new ConsoleProxy(app);
+        this.system = new SystemProxy(app);
+        // this.console = new ConsoleProxy(app);
         this.turtle = new TurtleProxy(app);
         this.pen = new PenProxy(app);
-        this.screen = new ScreenProxy(app);
+        // this.screen = new ScreenProxy(app);
         this.text = new TextProxy(app);
+
     }
     // test() {
     //     // log.debug(mainState);
@@ -23,21 +25,50 @@ class Context {
     // }
 }
 
-/**
- * TODO
- */
-class ConsoleProxy {
+// /**
+//  * TODO
+//  */
+// class ConsoleProxy {
+//     constructor(app) {
+//         this._app = app;
+//     }
+
+//     // log = (content) => {
+//     //     log.debug('-------');
+//     //     log.debug(content);
+//     //     this._app.addOutput(content);
+//     // }
+// }
+
+class SystemProxy {
     constructor(app) {
         this._app = app;
+        this._engine = this._app.engine;
     }
 
-    // log = (content) => {
-    //     log.debug('-------');
-    //     log.debug(content);
-    //     this._app.addOutput(content);
-    // }
-}
+    
+    sleep(ms) {
+        this._engine.addCommand(() => {
+            log.info('sleep');
+            this._engine.sleep(ms);
+        });
+    }
 
+    clear() {
+        this._engine.addCommand(() => {
+            log.debug('screen clear');
+            this._engine.clean();
+        })
+    }
+
+    setColor(color) {
+        this._engine.addCommand(() => {
+            log.debug('set screen color ' + color);
+            this._engine.setScreenColor(color);
+        })
+    }
+
+}
 
 class TurtleProxy {
     constructor(app) {
@@ -95,40 +126,69 @@ class TurtleProxy {
         })
     }
 
-    circle(radius) {
+    position(x, y) {
         this._engine.addCommand(() => {
-            log.debug('circle');
-            this._engine.circle(radius);
-        })   
+            log.debug('position');
+            this._engine.setTurtlePosition(x, y);
+        })
     }
 
-    fillCircle(radius, color) {
+    fillPath(func) {
         this._engine.addCommand(() => {
-            log.debug('fillCircle');
-            this._engine.fillCircle(radius, color);
+            this._engine.beginFill();
         })   
+
+        func();
+
+        this._engine.addCommand(() => {
+            this._engine.endFill();
+        })   
+
     }
 
-    rect(width, height) {
-        this._engine.addCommand(() => {
-            log.debug('rect');
-            this._engine.rect(width, height);
-        })   
-    }
 
-    fillRect(width, height, color) {
-        this._engine.addCommand(() => {
-            log.debug('fillRect');
-            this._engine.fillRect(width, height, color);
-        })   
-    }
+    // beginFill() {
+    //     this._engine.addCommand(() => {
+    //         log.debug('beginFill');
+    //         this._engine.beginFill();
+    //     })   
+    // }
 
-    text(content){
-        this._engine.addCommand(() => {
-            log.debug('text');
-            this._engine.text(content);
-        })  
-    }
+    // endFill() {
+    //     this._engine.addCommand(() => {
+    //         log.debug('endFill');
+    //         this._engine.endFill();
+    //     })   
+    // }
+
+    // drawCircle(radius) {
+    //     this._engine.addCommand(() => {
+    //         log.debug('circle');
+    //         this._engine.drawCircle(radius);
+    //     })   
+    // }
+
+    // fillCircle(radius) {
+    //     this._engine.addCommand(() => {
+    //         log.debug('fillCircle');
+    //         this._engine.fillCircle(radius);
+    //     })   
+    // }
+
+    // drawRect(width, height) {
+    //     this._engine.addCommand(() => {
+    //         log.debug('rect');
+    //         this._engine.drawRect(width, height);
+    //     })   
+    // }
+
+    // fillRect(width, height) {
+    //     this._engine.addCommand(() => {
+    //         log.debug('fillRect');
+    //         this._engine.fillRect(width, height);
+    //     })   
+    // }
+
 }
 
 class PenProxy {
@@ -195,34 +255,34 @@ class TextProxy{
         })
     }
 
-    draw(content, x, y) {
+    drawText(content) {
         this._engine.addCommand(() => {
             log.debug('drawText');
-            this._engine.drawText(content, x, y);
+            this._engine.drawText(content);
         })
     }
 }
 
-class ScreenProxy{
-    constructor(app) {
-        this.app = app;
-        this.engine = this.app.engine;
-    }
+// class ScreenProxy{
+//     constructor(app) {
+//         this.app = app;
+//         this.engine = this.app.engine;
+//     }
 
-    clear() {
-        this.engine.addCommand(() => {
-            log.debug('screen clean');
-            this.engine.clean();
-        })
-    }
+//     clear() {
+//         this.engine.addCommand(() => {
+//             log.debug('screen clean');
+//             this.engine.clean();
+//         })
+//     }
 
-    setColor(color) {
-        this.engine.addCommand(() => {
-            log.debug('set screen color ' + color);
-            this.engine.setScreenColor(color);
-        })
-    }
-}
+//     setColor(color) {
+//         this.engine.addCommand(() => {
+//             log.debug('set screen color ' + color);
+//             this.engine.setScreenColor(color);
+//         })
+//     }
+// }
 
 
 export default Context;

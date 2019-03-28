@@ -14,7 +14,7 @@ import Context from './logo/Context';
 import Engine from './logo/Engine';
 import log, {LOG_LEVEL_DEBUG} from './logo/Log';
 
-import {Samples, ScreenCommands, PenCommands, TurtleCommands, TextCommands} from './logo/Consts';
+import {Samples,  PenCommands, TurtleCommands, TextCommands, SystemCommands} from './logo/Consts';
 
 
 class App extends Component {
@@ -88,11 +88,12 @@ class App extends Component {
           </Col>
           <Col>
             <ButtonGroup>
+              <CommandMenu label="系统指令" commandList={SystemCommands} onSelected={this.insertCode}/>
               <CommandMenu label="海龟指令" commandList={TurtleCommands} onSelected={this.insertCode}/>
-              <CommandMenu label="屏幕指令" commandList={ScreenCommands} onSelected={this.insertCode}/>
+              {/* <CommandMenu label="屏幕指令" commandList={ScreenCommands} onSelected={this.insertCode}/> */}
               <CommandMenu label="画笔指令" commandList={PenCommands} onSelected={this.insertCode}/>
               <CommandMenu label="文本指令" commandList={TextCommands} onSelected={this.insertCode}/>
-              <CommandMenu label="范例" commandList={Samples} onSelected={this.insertCode}/>
+              <CommandMenu label="示例" commandList={Samples} onSelected={this.insertCode}/>
             </ButtonGroup>
           </Col>
         </Row>
