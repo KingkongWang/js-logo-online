@@ -43,13 +43,13 @@ const Sample2 =
 
 
 
-export const Samples = [
+const Samples = [
      {label:"正多边形", code:Sample1},
      {label:"填充正多边形", code:Sample2},
 ];
 
 
-export const TurtleCommands = [
+const TurtleCommands = [
     {label:"显示", code:"app.turtle.show();"},
     {label:"隐藏", code:"app.turtle.hide();"},
     {label:"前进", code:"app.turtle.forward(0);"},
@@ -76,20 +76,46 @@ export const TurtleCommands = [
 
 ];
 
-export const PenCommands = [
+const PenCommands = [
     {label:"抬笔", code:"app.pen.up();"},
     {label:"落笔", code:"app.pen.down();"},
     {label:"颜色", code:"app.pen.setColor('#000000');"},
     {label:"粗细", code:"app.pen.setSize(1);"},
 ];
 
-export const TextCommands = [
+const TextCommands = [
     {label:"绘制文本", code:"app.text.drawText('hello,world!');"},
     {label:"设置字体", code:"app.text.font('18px SimHei');"},
 ];
 
-export const SystemCommands = [
+const SystemCommands = [
     {label:"暂停", code:"app.system.sleep(30);"},
     {label:"清屏", code:"app.system.clear();"},
     {label:"背景色", code:"app.system.setColor('#ffffff');"}
 ];
+
+
+
+
+
+const SampleMenuLabel = "示例";
+const SystemMenuLabel = "系统指令";
+const TurtleMenuLabel = "海龟指令";
+const PenMenuLabel = "画笔指令";
+const TextMenuLabel = "文本指令"
+
+export default {
+    
+    SampleMenuLabel:SampleMenuLabel,
+    SystemMenuLabel:SystemMenuLabel,
+    TurtleMenuLabel:TurtleMenuLabel,
+    PenMenuLabel:PenMenuLabel,
+    TextMenuLabel:TextMenuLabel,
+    
+    Samples:Samples,
+    SystemCommands:SystemCommands,
+    TurtleCommands:TurtleCommands,
+    PenCommands:PenCommands,
+    TextCommands:TextCommands,
+
+}

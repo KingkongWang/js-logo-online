@@ -31,10 +31,14 @@ import "codemirror/addon/hint/javascript-hint.js";
 import 'codemirror/addon/scroll/simplescrollbars.css'
 import 'codemirror/addon/scroll/simplescrollbars'
 
+import PropTypes from 'prop-types';
+
 import log from "../logo/Log";
+import Context from '../logo/Context';
 
 
 class Editor extends Component {
+
     constructor() {
         super();
         this.editor = null;
@@ -55,7 +59,7 @@ class Editor extends Component {
             autoCloseBrackets: true,  // 自动生成关闭括号，需要配合 "codemirror/addon/edit/closebrackets.js"
 
             // 折叠相关
-            lineWrapping: true,       //代码折叠  // 未知，不设置也可以正常折叠
+            lineWrapping: true,       //自动换行，如果设置为true到水平边缘自动换行，否则出现横向滚动条
             foldGutter: true,
             gutters: ["CodeMirror-lint-markers", "CodeMirror-linenumbers", "CodeMirror-foldgutter"],
             //lint相关
@@ -87,8 +91,6 @@ class Editor extends Component {
 
         this.editor.setSize('100%', '100%');
         this.editor.on('change', this.onChanged);
-        // this.editor.on('blur', this.onBlur);
-        // this.editor.on('focus', this.onFocus);
     }
 
     // shouldComponentUpdate(nextProps) {
@@ -106,13 +108,7 @@ class Editor extends Component {
         }
     }
 
-    // onFocus = (doc, evt) => {
-    //     console.log(evt);
-    // }
 
-    // onBlur = (doc, evt) => {
-    //     log.debug(evt);
-    // }
 
     onChanged = (doc, change) => {
         log.debug(change);
@@ -135,13 +131,25 @@ class Editor extends Component {
         return (
             <div className="left">
                 <textarea ref={(ref) => { this.ref = ref; }}
-                    defaultValue={this.props.initCode ? this.props.initCode : ''}
+                    // defaultValue={this.props.initCode ? this.props.initCode : ''}
                     autoFocus={true}>
                 </textarea>
             </div>
         );
 
     }
+}
+
+
+Editor.propTypes = {
+    context: PropTypes.instanceOf(Context),
+    insertCode: PropTypes.string,
+    onChange: PropTypes.func
+};
+
+
+Editor.defaultProps = {
+
 }
 
 export default Editor;

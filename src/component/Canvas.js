@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Engine from '../logo/Engine';
 
-class Canvas extends Component {
+class Canvas extends React.PureComponent {
+
+
 
     constructor(props) {
         super(props);
@@ -64,5 +68,18 @@ class Canvas extends Component {
 
     }
 }
+
+
+Canvas.propTypes = {
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    engine: PropTypes.instanceOf(Engine)
+};
+
+
+Canvas.defaultProps = {
+
+}
+
 
 export default Canvas;

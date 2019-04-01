@@ -5,6 +5,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button,ButtonGroup, Container, Row, Col } from 'reactstrap';
 
+// import Immutable from 'immutable';
+
 import Editor from './component/Editor';
 import Canvas from './component/Canvas';
 import CommandMenu from './component/CommandMenu';
@@ -14,7 +16,7 @@ import Context from './logo/Context';
 import Engine from './logo/Engine';
 import log, {LOG_LEVEL_DEBUG} from './logo/Log';
 
-import {Samples,  PenCommands, TurtleCommands, TextCommands, SystemCommands} from './logo/Consts';
+import Consts from './logo/Consts';
 
 
 class App extends Component {
@@ -56,7 +58,6 @@ class App extends Component {
 
   onCodeChage = (value, change) => {
     this._currentCode = value;
-    // this.setState({currentCode:value});
   }
 
   /**
@@ -74,6 +75,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("reader app");
     return (
       <Container fluid={true}>
         <Row>
@@ -82,16 +84,19 @@ class App extends Component {
               <ButtonGroup >
                 <Button color="secondary" onClick={this.onRun}>运行</Button>
                 <Button color="secondary" onClick={this.onReset}>重置</Button>
-                <CommandMenu label="示例" commandList={Samples} onSelected={this.insertCode}/>
+                <CommandMenu 
+                            label={Consts.SampleMenuLabel}
+                            commandList={Consts.Samples} 
+                            onSelected={this.insertCode}/>
               </ButtonGroup>
             </div>
           </Col>
           <Col>
             <ButtonGroup>
-              <CommandMenu label="系统指令" commandList={SystemCommands} onSelected={this.insertCode}/>
-              <CommandMenu label="海龟指令" commandList={TurtleCommands} onSelected={this.insertCode}/>
-              <CommandMenu label="画笔指令" commandList={PenCommands} onSelected={this.insertCode}/>
-              <CommandMenu label="文本指令" commandList={TextCommands} onSelected={this.insertCode}/>
+              <CommandMenu label={Consts.SystemMenuLabel} commandList={Consts.SystemCommands} onSelected={this.insertCode}/>
+              <CommandMenu label={Consts.TurtleMenuLabel} commandList={Consts.TurtleCommands} onSelected={this.insertCode}/>
+              <CommandMenu label={Consts.TurtleMenuLabel} commandList={Consts.PenCommands} onSelected={this.insertCode}/>
+              <CommandMenu label={Consts.TextMenuLabel} commandList={Consts.TextCommands} onSelected={this.insertCode}/>
             </ButtonGroup>
           </Col>
         </Row>

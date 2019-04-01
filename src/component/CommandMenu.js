@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import {DropdownToggle, DropdownMenu, Dropdown, DropdownItem} from 'reactstrap';
+import PropTypes from 'prop-types';
+
+
 
 /**
  * 指令菜单
  */
-class CommandMenu extends Component {
+class CommandMenu extends React.PureComponent {
+    
     constructor() {
         super();
         this.state = {
@@ -14,6 +18,7 @@ class CommandMenu extends Component {
     }
 
     toggleSample = () => {
+        // 需要更新下拉框状态
         this.setState(prevState => ({
             dropdownOpen: !prevState.dropdownOpen
         }));
@@ -34,14 +39,12 @@ class CommandMenu extends Component {
     onSelected(index, evt) {
         if(this.props.onSelected) {
             this.props.onSelected(this.props.commandList[index].code);
+            // this.props.onSelected(this.props.commandList.get(index).code);
         }
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
+      console.log('xxxx:' +  this.props.label);
         return (
           <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleSample}>
             <DropdownToggle caret>
@@ -55,5 +58,20 @@ class CommandMenu extends Component {
     
     }
 }
+
+
+CommandMenu.propTypes = {
+  label: PropTypes.string.isRequired,
+  commandList: PropTypes.array,
+  onSelected: PropTypes.func,
+};
+
+
+CommandMenu.defaultProps = {
+  // label: 'test',
+  commandList: [],
+  // onSelected: null
+}
+
 
 export default CommandMenu;

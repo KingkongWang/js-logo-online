@@ -1,7 +1,7 @@
 import Turtle from './Turtle';
 import arrow from '../img/arrow.png';
 import Pen from './Pen';
-import log from './Log';
+// import log from './Log';
 
 
 const DEFAULT_SCREEN_COLOR = 'black';    //默认屏幕背景色
