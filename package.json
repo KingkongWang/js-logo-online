@@ -32,6 +32,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "flow-bin": "^0.95.1"
+    "eslint-plugin-react": "^7.12.4"
   }
 }
