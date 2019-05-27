@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 //引入codemirror相关
 import CodeMirror from "codemirror";//核心库
 import "codemirror/lib/codemirror.css"; //核心css
@@ -25,7 +25,6 @@ import "codemirror/addon/lint/lint.css";
 import "codemirror/addon/hint/show-hint.css";
 import "codemirror/addon/hint/show-hint";
 import "codemirror/addon/hint/javascript-hint.js";
-// import "./logo-js-hint";  // 使用自定制的hint
 
 // 滚动条
 import "codemirror/addon/scroll/simplescrollbars.css";
@@ -37,7 +36,7 @@ import log from "../logo/Log";
 import Context from "../logo/Context";
 
 
-class Editor extends Component {
+class Editor extends React.Component {
 
 	constructor() {
 		super();
@@ -93,16 +92,10 @@ class Editor extends Component {
 		this.editor.on("change", this.onChanged);
 	}
 
-	// shouldComponentUpdate(nextProps) {
-	//     if(this.props.initCode !== nextProps.initCode) {
-	//         return true;
-	//     }
-	//     return false;
-	// }
 
 	componentDidUpdate() {
 		if(this.editor && this.props.insertCode) {
-			// this.editor.setValue(this.props.initCode);
+			// 设置插入代码
 			this.editor.replaceSelection(this.props.insertCode);
 			this.editor.focus();
 		}

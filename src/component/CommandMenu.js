@@ -16,55 +16,57 @@ class CommandMenu extends React.PureComponent {
 		};
 	}
 
-  toggleSample = () => {
-    	// 需要更新下拉框状态
-  	this.setState(prevState => ({
-    		dropdownOpen: !prevState.dropdownOpen
-  	}));
-  }
+	toggle = () => {
+		// 需要更新下拉框状态
+		this.setState(prevState => ({
+			dropdownOpen: !prevState.dropdownOpen
+		}));
+	}
 
-  componentDidMount() {
-  	this.dropdownItems = this.props.commandList.map((command, index) =>
-  		<DropdownItem key={index} onClick={this.onSelected.bind(this, index)}>
-  			{command.label}
-  		</DropdownItem>
-  	);
-  }
 
-  // eslint-disable-next-line no-unused-vars
-  onSelected(index, evt) {
-    	if(this.props.onSelected) {
-    		this.props.onSelected(this.props.commandList[index].code);
-    		// this.props.onSelected(this.props.commandList.get(index).code);
-    	}
-  }
+	// eslint-disable-next-line no-unused-vars
+	onSelected(index, evt) {
+		if(this.props.onSelected) {
+			this.props.onSelected(this.props.items[index].code);
+		}
+	}
 
-  render() {
-    	return (
-    		<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleSample}>
-    			<DropdownToggle caret>
-    				{this.props.label}
-    			</DropdownToggle>
-    			<DropdownMenu>
-    				{this.dropdownItems}
-    			</DropdownMenu>
-    		</Dropdown>
-    	);
-    
-  }
+	renderList() {
+		const {items} = this.props;
+		const dropdownItems = items.map((command, index) =>
+			<DropdownItem key={index} onClick={this.onSelected.bind(this, index)}>
+				{command.label}
+			</DropdownItem>
+		);
+		return dropdownItems;
+	}
+
+	render() {
+		return (
+			<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+				<DropdownToggle caret>
+					{this.props.label}
+				</DropdownToggle>
+				<DropdownMenu>
+					{this.renderList()}
+				</DropdownMenu>
+			</Dropdown>
+		);
+		
+	}
 }
 
 
 CommandMenu.propTypes = {
 	label: PropTypes.string.isRequired,
-	commandList: PropTypes.array,
+	items: PropTypes.array,
 	onSelected: PropTypes.func,
 };
 
 
 CommandMenu.defaultProps = {
 	// label: 'test',
-	commandList: [],
+	items: [],
 	// onSelected: null
 };
 

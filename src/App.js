@@ -30,7 +30,6 @@ class App extends Component {
 		this._currentCode = "";
 
 		this.state = {
-			initCode:"",
 			insertCode:"",
 			canvasWidth: 800,
 			canvasHeight: 800
@@ -42,80 +41,74 @@ class App extends Component {
 		return this._engine;
 	}
 
+	onRun = () => {
+  		this._interpreter.eval(this._currentCode);
+  	}
 
-	componentDidMount() {
- 
+  	onReset = () => {
+  		this._engine.reset();
+
+  	}
+
+	onCodeChage = (value) => {
+		this._currentCode = value;
 	}
 
-  onRun = () => {
-  	this._interpreter.eval(this._currentCode);
-  }
+	/**
+	 * 切换示例代码
+	 */
+	insertCode = (code) => {
+		this.setState({insertCode:code});
+	}
+	
+	/**
+	 * 插入指令
+	 */
+	insertCommand = (code) => {
+		alert(code);
+	}
 
-  onReset = () => {
-  	this._engine.reset();
-
-  }
-
-  onCodeChage = (value) => {
-  	this._currentCode = value;
-  }
-
-  /**
-   * 切换示例代码
-   */
-  insertCode = (code) => {
-  	this.setState({insertCode:code});
-  }
-  
-  /**
-   * 插入指令
-   */
-  insertCommand = (code) => {
-  	alert(code);
-  }
-
-  render() {
-  	// console.log("reader app");
-  	return (
-  		<Container fluid={true}>
-  			<Row>
-  				<Col>
-  					<div className="header">
-  						<ButtonGroup >
-  							<Button color="secondary" onClick={this.onRun}>运行</Button>
-  							<Button color="secondary" onClick={this.onReset}>重置</Button>
-  							<CommandMenu 
-  								label={Consts.SampleMenuLabel}
-  								commandList={Consts.Samples} 
-  								onSelected={this.insertCode}/>
-  						</ButtonGroup>
-  					</div>
-  				</Col>
-  				<Col>
-  					<ButtonGroup>
-  						<CommandMenu label={Consts.SystemMenuLabel} commandList={Consts.SystemCommands} onSelected={this.insertCode}/>
-  						<CommandMenu label={Consts.TurtleMenuLabel} commandList={Consts.TurtleCommands} onSelected={this.insertCode}/>
-  						<CommandMenu label={Consts.TurtleMenuLabel} commandList={Consts.PenCommands} onSelected={this.insertCode}/>
-  						<CommandMenu label={Consts.TextMenuLabel} commandList={Consts.TextCommands} onSelected={this.insertCode}/>
-  					</ButtonGroup>
-  				</Col>
-  			</Row>
-  			<Row>
-  				<Col>
-  					<Editor context={this._context} insertCode={this.state.insertCode} onChange={this.onCodeChage} />
-  				</Col>
-  				<Col>
-  					<Canvas engine={this._engine} width={this.state.canvasWidth} height={this.state.canvasHeight}/>
-  				</Col>
-  			</Row>
-  			<div className="footer">
-  				<a href="https://github.com/KingkongWang/js-logo-online" style={{color:"#FFFFFF"}}>github项目地址</a>
-  			</div>
-  		</Container>
+	render() {
+		return (
+			<Container fluid={true}>
+				<Row>
+					<Col xs="6">
+						<div className="header">
+							<ButtonGroup >
+								<Button color="secondary" onClick={this.onRun}>运行</Button>
+								<Button color="secondary" onClick={this.onReset}>重置</Button>
+								<CommandMenu label={Consts.SampleMenuLabel} items={Consts.Samples} onSelected={this.insertCode}/>
+							</ButtonGroup>
+						</div>
+					</Col>
+					<Col xs="6" className="text-right">
+						<ButtonGroup>
+							<CommandMenu label={Consts.SystemMenuLabel} items={Consts.SystemCommands} onSelected={this.insertCode}/>
+							<CommandMenu label={Consts.TurtleMenuLabel} items={Consts.TurtleCommands} onSelected={this.insertCode}/>
+							<CommandMenu label={Consts.TurtleMenuLabel} items={Consts.PenCommands} onSelected={this.insertCode}/>
+							<CommandMenu label={Consts.TextMenuLabel} items={Consts.TextCommands} onSelected={this.insertCode}/>
+						</ButtonGroup>
+					</Col>
+				</Row>
+				<Row>
+					<Col xs="6">
+						<Editor context={this._context} insertCode={this.state.insertCode} onChange={this.onCodeChage} />
+					</Col>
+					<Col xs="6" className="text-right">
+						<Canvas engine={this._engine} width={this.state.canvasWidth} height={this.state.canvasHeight}/>
+					</Col>
+				</Row>
+			
+				<Row>
+					<Col className="text-center">
+						<a href="https://github.com/KingkongWang/js-logo-online" style={{color:"#FFFFFF"}}>github项目地址</a>
+					</Col>
+			    </Row>
+			</Container>
 
 
-  	);
-  }
+		);
+	}
 }
 
 export default App;

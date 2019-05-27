@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Engine from "../logo/Engine";
 
+const DEFAULT_INTERVAL = 1;
+
 class Canvas extends React.PureComponent {
 
 
@@ -10,7 +12,7 @@ class Canvas extends React.PureComponent {
 		super(props);
 		this.engine = null;
 		this.timer = null;
-		this.interval = 1;
+		this.interval = DEFAULT_INTERVAL;
 	}
 
 	componentDidMount() {
